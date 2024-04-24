@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:piecexpresspfe/button_widget/mybutton.dart';
-import 'package:piecexpresspfe/screens/signin.dart/signinPage.dart';
+
+import 'package:piecexpresspfe/resuable_widgets/button_widget/mybutton.dart';
+import 'package:piecexpresspfe/screens/authentificarion_screens/signin_screen.dart';
+
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  const OtpScreen({Key? key}) : super(key: key);
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -111,6 +113,7 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         centerTitle: true,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -118,10 +121,11 @@ class _OtpScreenState extends State<OtpScreen> {
         title: const Text(
           "OTP",
           style: TextStyle(
-              color: Colors.black,
-              fontFamily: "Montserrat",
-              fontSize: 18,
-              fontWeight: FontWeight.w500),
+            color: Colors.black,
+            fontFamily: "Montserrat",
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       body: Padding(
@@ -141,7 +145,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 style: TextStyle(
                     fontFamily: "Montserrat",
                     fontSize: 15,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: FontWeight.bold),
               ),
               const SizedBox(
                 height: 10,
@@ -181,18 +185,21 @@ class _OtpScreenState extends State<OtpScreen> {
                   return true;
                 },
               ),
-              const SizedBox(height: 120),
+              const SizedBox(height: 40),
               Container(
                   width: MediaQuery.of(context).size.width,
                   child: MyButton(text: 'Vérifier le code', onTap: () {})),
-              const SizedBox(height: 200),
+              const SizedBox(height: 245),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text("Vous n'avez pas reçu le code ?",
-                        style:
-                            TextStyle(fontFamily: "Montserrat", fontSize: 12)),
+                        style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: 12,
+                          color: Colors.grey,
+                        )),
                     const SizedBox(width: 5),
                     ShaderMask(
                       shaderCallback: (Rect bounds) {
@@ -212,6 +219,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         child: const Text(
                           "Renvoyer",
                           style: TextStyle(
+                              fontSize: 12,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
                               fontFamily: "Montserrat"),

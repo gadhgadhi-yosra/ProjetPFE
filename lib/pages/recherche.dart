@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:piecexpresspfe/pages/panier.dart';
 import 'package:piecexpresspfe/resuable_widgets/ListeVoiture.dart';
 import 'package:piecexpresspfe/resuable_widgets/rechercheCustom.dart';
+import 'package:piecexpresspfe/resuable_widgets/screen_utils.dart';
 
 class RecherchePage extends StatefulWidget {
   const RecherchePage({Key? key}) : super(key: key);
@@ -12,41 +14,51 @@ class RecherchePage extends StatefulWidget {
 class _RecherchePageState extends State<RecherchePage> {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = ScreenSize.width(context);
+    double screenHeight = ScreenSize.height(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.all(100),
-          child: Image.asset("assets/images/logo.png"),
+          padding: EdgeInsets.all(screenWidth * 0.05),
+          child: Image.asset(
+            "assets/images/logo.png",
+            width: screenWidth * 0.3,
+            height: screenHeight * 0.2,
+          ),
         ),
+        scrolledUnderElevation: 0,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.shopping_bag_outlined),
+            onPressed: () {
+              Navigator.push(context as BuildContext,
+                  MaterialPageRoute(builder: (context) => const PanierPiece()));
+            },
+            icon: Image.asset(
+              'assets/icons/panier.png',
+              width: screenWidth * 0.05,
+              height: screenHeight * 0.05,
+            ),
           ),
         ],
-        leading: SizedBox(
-          height: 10,
-          width: 10,
-          child: IconButton(
-            onPressed: () {},
-            icon: Image.asset('assets/images/menuicon.png', height: 30),
+        leading: IconButton(
+          icon: Image.asset(
+            'assets/icons/menu2.png',
+            width: screenWidth * 0.05,
+            height: screenHeight * 0.05,
           ),
+          onPressed: () {},
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(25.0),
+      body: Padding(
+        padding: EdgeInsets.all(screenWidth * 0.04),
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 5.0,
-              ),
-            ),
-            RechercheCustom(
+            const RechercheCustom(
               hintText: 'Recherche une voiture',
             ),
             SizedBox(
-              height: 20,
+              height: screenHeight * 0.02,
             ),
             VoitureListe(),
           ],

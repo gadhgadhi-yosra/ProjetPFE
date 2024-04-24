@@ -1,185 +1,157 @@
 import 'package:flutter/material.dart';
-import 'package:piecexpresspfe/Informations/recapulatif.dart';
-import 'package:piecexpresspfe/button_widget/buttonHeart.dart';
-import 'package:piecexpresspfe/button_widget/buttonwithIcon.dart';
+
 import 'package:piecexpresspfe/pages/panier.dart';
-import 'package:piecexpresspfe/pages/recherche.dart';
+import 'package:piecexpresspfe/resuable_widgets/button_widget/buttonHeart.dart';
+import 'package:piecexpresspfe/resuable_widgets/button_widget/buttonwithIcon.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
+import 'package:piecexpresspfe/resuable_widgets/screen_utils.dart';
 
 class FavoritePage extends StatefulWidget {
-  const FavoritePage({Key? key});
+  const FavoritePage({Key? key}) : super(key: key);
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  int quantityCount = 0;
-
-  List<Map<String, dynamic>> items = [
+  final List<Map<String, dynamic>> favorites = [
     {
-      'name': 'Roulement de roue',
-      'price': '25.954',
-      'image': 'assets/roulement1.png',
+      'title': 'ROULEMENT',
+      'price': '23.45 DT',
+      'imagePath': 'assets/images/roulement1.png',
     },
     {
-      'name': 'Disque Frein',
-      'price': '99.290 DT',
-      'image': 'assets/roulement2.png',
+      'title': 'ROULEMENT',
+      'price': '23.45 DT',
+      'imagePath': 'assets/images/roulement1.png',
     },
     {
-      'name': 'Pneus 165/80R14 BARUM TL',
-      'price': '190.000 DT',
-      'image': 'assets/roulement3.png',
+      'title': 'ROULEMENT',
+      'price': '23.45 DT',
+      'imagePath': 'assets/images/roulement1.png',
+    },
+    {
+      'title': 'ROULEMENT',
+      'price': '23.45 DT',
+      'imagePath': 'assets/images/roulement1.png',
+    },
+    {
+      'title': 'ROULEMENT',
+      'price': '23.45 DT',
+      'imagePath': 'assets/images/roulement1.png',
     },
   ];
 
-  void decrementQuantity() {
-    setState(() {
-      if (quantityCount > 0) {
-        quantityCount--;
-      }
-    });
-  }
-
-  void incrementQuantity() {
-    setState(() {
-      quantityCount++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    double screenWidth = ScreenSize.width(context);
+    double screenHeight = ScreenSize.height(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Favoris',
-          style: TextStyle(color: Colors.black, fontSize: 18),
+          style: TextStyle(
+              color: AppColors.primaryColor,
+              fontSize: screenWidth * 0.04,
+              fontFamily: 'Montserrat-Bold',
+              fontWeight: FontWeight.bold),
         ),
+        scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: Image.asset('assets/icons/flecheSortie.png'),
+          icon: Image.asset(
+            'assets/icons/flecheSortie.png',
+            width: screenWidth * 0.04,
+            height: screenHeight * 0.04,
+          ),
           onPressed: () {
-            Navigator.push(context as BuildContext,
-                MaterialPageRoute(builder: (context) => RecherchePage()));
+            Navigator.pop(context);
           },
         ),
         actions: [
           IconButton(
-            icon: Image.asset('assets/icons/shopping.png'),
+            icon: Image.asset(
+              'assets/icons/panier.png',
+              width: screenWidth * 0.05,
+              height: screenWidth * 0.05,
+            ),
             onPressed: () {
-              Navigator.push(context as BuildContext,
-                  MaterialPageRoute(builder: (context) => PanierPiece()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PanierPiece()),
+              );
             },
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecapulatifPage(
-                          selectedItem: items[index],
-                          items: const [],
-                          totalPrice: '',
-                        ),
-                      ),
-                    );
-                  },
-                  child: buildItem(items[index]),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildItem(Map<String, dynamic> item) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 5),
-              height: 150,
-              width: MediaQuery.of(context).size.width,
+      body: ListView.builder(
+        itemCount: favorites.length,
+        itemBuilder: (context, index) {
+          final item = favorites[index];
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.01, horizontal: screenWidth * 0.05),
+            child: Container(
+              height: screenHeight * 0.19,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.secondaryColor,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 children: [
                   Container(
-                    height: 200,
-                    width: MediaQuery.of(context).size.width / 4,
-                    margin: const EdgeInsets.only(left: 8),
+                    height: screenHeight * 0.15,
+                    width: screenWidth * 0.25,
+                    margin: EdgeInsets.only(left: screenWidth * 0.02),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 216, 211, 211),
+                      color: AppColors.tertiaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Image.asset(
-                      item['image'],
+                      item['imagePath'],
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const SizedBox(width: 20),
+                  SizedBox(width: screenWidth * 0.045),
                   Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item['name'],
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              item['title'],
+                              style: TextStyle(
+                                color: AppColors.primaryColor,
+                                fontSize: screenWidth * 0.04,
                               ),
-                              const SizedBox(width: 20),
-                              HeartButton(),
-                            ],
-                          ),
-                          Text(
-                            item['price'],
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 15),
-                          ),
-                          const SizedBox(height: 25),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: MyButtonIcon(
-                              text: 'Add to Cart',
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PanierPiece()));
-                              },
-                              icon: Icons.shopping_bag,
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
+                            SizedBox(height: screenHeight * 0.01),
+                            HeartButton(),
+                          ],
+                        ),
+                        Text(
+                          item['price'],
+                          style: TextStyle(
+                              color: AppColors.primaryColor,
+                              fontSize: screenWidth * 0.035,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: screenHeight * 0.030),
+                        MyButtonIcon(
+                          text: 'Add To Cart',
+                          onTap: () {},
+                          icon: Icons.shopping_bag,
+                        ),
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

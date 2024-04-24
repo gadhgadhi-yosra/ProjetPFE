@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
 
 class HeartButton extends StatefulWidget {
   @override
@@ -13,8 +14,7 @@ class _HeartButtonState extends State<HeartButton> {
     return IconButton(
       icon: Icon(
         Icons.favorite,
-        color:
-            isPressed ? Colors.black : const Color.fromARGB(255, 236, 235, 235),
+        color: isPressed ? AppColors.primaryColor : AppColors.tertiaryColor,
       ),
       onPressed: () {
         setState(() {

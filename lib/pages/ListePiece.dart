@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:piecexpresspfe/button_widget/buttonHeart.dart';
 import 'package:piecexpresspfe/model/piece.dart';
 import 'package:piecexpresspfe/pages/PieceDetailsPage.dart';
 import 'package:piecexpresspfe/pages/panier.dart';
+import 'package:piecexpresspfe/resuable_widgets/button_widget/buttonHeart.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
+import 'package:piecexpresspfe/resuable_widgets/screen_utils.dart';
 
 class ListePiece extends StatefulWidget {
   @override
@@ -14,15 +16,15 @@ class _ListePieceState extends State<ListePiece> {
     piece(
         name: 'Roulement',
         price: '25.954 DT',
-        imagePath: 'assets/images/Menneke.png'),
+        imagePath: 'assets/images/roulement1.png'),
     piece(
         name: 'Roulement',
         price: '25.954 DT',
-        imagePath: 'assets/images/Menneke.png'),
+        imagePath: 'assets/images/roulement2.png'),
     piece(
         name: 'Roulement',
         price: '25.954 DT',
-        imagePath: 'assets/images/Menneke.png'),
+        imagePath: 'assets/images/roulement3.png'),
     piece(
         name: 'Roulement',
         price: '25.954 DT',
@@ -31,14 +33,17 @@ class _ListePieceState extends State<ListePiece> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double containerWidth = screenWidth * 0.5;
-    double containerHeight = containerWidth * 0.8;
+    double screenWidth = ScreenSize.width(context);
+    double screenHeight = ScreenSize.height(context);
+    double baseFontSize = screenWidth * 0.03;
+    double containerWidth = screenWidth * 0.7;
+    double containerHeight = containerWidth * 0.7;
+    double verticalSpacing = screenHeight * 0.01;
 
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(18.0),
       child: Container(
-        height: containerHeight,
+        height: 300,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: pieces.length,
@@ -51,55 +56,82 @@ class _ListePieceState extends State<ListePiece> {
                       builder: (context) => const PieceDetailsPage()),
                 );
               },
-              child: Container(
-                width: containerWidth,
-                margin: const EdgeInsets.symmetric(horizontal: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.secondaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: Offset(0, -5)),
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: Offset(0, 5)),
+                    ],
+                  ),
+                  width: containerWidth,
+                  margin: EdgeInsets.only(left: 5, right: 30),
+                  child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          pieces[index].name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              pieces[index].name,
+                              style: TextStyle(
+                                fontSize: baseFontSize,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                            HeartButton(),
+                          ],
                         ),
-                        HeartButton()
+                        SizedBox(height: verticalSpacing),
+                        Image.asset(
+                          pieces[index].imagePath,
+                          width: containerWidth,
+                          height: containerHeight * 0.35,
+                        ),
+                        SizedBox(height: verticalSpacing),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              pieces[index].price,
+                              style: TextStyle(
+                                fontSize: baseFontSize,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Montserrat',
+                              ),
+                            ),
+                            IconButton(
+                              icon: Image.asset('assets/icons/panier.png',
+                                  width: screenWidth * 0.05,
+                                  height: screenWidth * 0.05),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PanierPiece()),
+                                );
+                              },
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                    Expanded(
-                      child: Image.asset(
-                        pieces[index].imagePath,
-                        fit: BoxFit.cover,
-                        width: containerWidth,
-                        height: containerHeight * 0.6,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          pieces[index].price,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        IconButton(
-                          icon: Image.asset('assets/icons/shopping.png'),
-                          onPressed: () {
-                            Navigator.push(
-                                context as BuildContext,
-                                MaterialPageRoute(
-                                    builder: (context) => const PanierPiece()));
-                          },
-                        ),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
               ),
             );

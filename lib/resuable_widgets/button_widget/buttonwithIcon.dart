@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
+import 'package:piecexpresspfe/resuable_widgets/screen_utils.dart';
 
 class MyButtonIcon extends StatelessWidget {
   final String text;
@@ -14,33 +16,37 @@ class MyButtonIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = ScreenSize.width(context);
+    double screenHeight = ScreenSize.height(context);
     return Container(
-      height: 60,
+      height: screenHeight * 0.059,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.circular(10),
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   text,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(
+                      color: AppColors.secondaryColor,
+                      fontSize: screenWidth * 0.045,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'Montserrat'),
+                ),
+                SizedBox(
+                  width: screenWidth * 0.08,
                 ),
                 Icon(
                   icon,
-                  color: Colors.white,
+                  color: AppColors.secondaryColor,
                 ),
-                SizedBox(width: 35),
               ],
             ),
           ),

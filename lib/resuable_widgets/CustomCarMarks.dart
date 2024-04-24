@@ -26,9 +26,7 @@ class CustomCarMarks extends StatelessWidget {
           return Container(
             width: containerWidth,
             margin: const EdgeInsets.symmetric(horizontal: 5),
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 224, 224, 224),
-            ),
+            decoration: const BoxDecoration(),
             child: Center(
               child: Image.asset(
                 imageAssets[index],

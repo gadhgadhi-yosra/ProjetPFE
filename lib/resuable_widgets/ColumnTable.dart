@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
 
 class ColumnTable extends StatefulWidget {
-  const ColumnTable({super.key});
+  const ColumnTable({Key? key}) : super(key: key);
 
   @override
-  State<ColumnTable> createState() => _ColumnTableState();
+  _ColumnTableState createState() => _ColumnTableState();
 }
 
 class _ColumnTableState extends State<ColumnTable> {
-  ElevatedButton _buildButton(String text) {
+  final Set<String> _selectedButtons = {};
+  final List<List<String>> categories = [
+    ["All", "Amortisseurs", "Eclairage"],
+    ["Climatisation", "Freinage", "Moteur"],
+    ["Boites de vitesses", "Filtres", "Roulements"],
+    ["Filtre a huile", "Rétroviseurs", "Moteur"],
+    ["Courroies", "Roulements", "Intérieur"]
+  ];
+
+  Widget _buildButton(String text) {
+    bool isSelected = _selectedButtons.contains(text);
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          isSelected
+              ? _selectedButtons.remove(text)
+              : _selectedButtons.add(text);
+        });
+      },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
+        backgroundColor:
+            isSelected ? AppColors.primaryColor : AppColors.secondaryColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
-          side: const BorderSide(color: Colors.black),
+          side: BorderSide(color: AppColors.primaryColor),
         ),
       ),
       child: Text(
         text,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+        style: TextStyle(
+          color: isSelected ? AppColors.secondaryColor : AppColors.primaryColor,
+          fontSize: 11,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -33,148 +51,40 @@ class _ColumnTableState extends State<ColumnTable> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      "All",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+        children: categories.map((List<String> category) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 25),
+            child: Row(
+              children: category.map((String title) {
+                return Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8.0),
+                    height: 50,
+                    child: title == "All"
+                        ? ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              "All",
+                              style: TextStyle(
+                                color: AppColors.secondaryColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : _buildButton(title),
                   ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Amortisseurs"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Eclairage"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Climatisation"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Freinage"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Moteur"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Boites vitesses"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Filtres"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Roulements"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Filtre a huile"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Rétroviseurs"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Moteur"),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 25),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Courroies"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Roulements"),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  child: _buildButton("Intérieur"),
-                ),
-              ),
-            ],
-          ),
-        ],
+                );
+              }).toList(),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

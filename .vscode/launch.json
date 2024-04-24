@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib/screens/signin.dart/otpPage.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/screens/signin.dart/otpPage.dart"
+        }
+    ]
+}

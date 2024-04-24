@@ -16,7 +16,7 @@ class TabPage {
   static List<TabPage> listGet(BuildContext context) {
     return [
       const TabPage(
-        page: const HomePage2(),
+        page: const HomePage2S(),
         navLabel: "aaa",
         navIcon: ImagesPath.tabbarHomeUnselected,
       ),

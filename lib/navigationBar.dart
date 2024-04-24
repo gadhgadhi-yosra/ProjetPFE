@@ -1,115 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:piecexpresspfe/pages/chatboot.dart';
 import 'package:piecexpresspfe/pages/favorie.dart';
 import 'package:piecexpresspfe/pages/home.dart';
 import 'package:piecexpresspfe/pages/profile.dart';
 import 'package:piecexpresspfe/pages/recherche.dart';
+import 'package:piecexpresspfe/resuable_widgets/colors.dart';
 
 class NavigationBarScreen extends StatefulWidget {
-  const NavigationBarScreen({super.key});
+  const NavigationBarScreen({Key? key}) : super(key: key);
 
   @override
-  State<NavigationBarScreen> createState() => _NavigationBarScreenState();
+  _NavigationBarScreenState createState() => _NavigationBarScreenState();
 }
 
 class _NavigationBarScreenState extends State<NavigationBarScreen> {
   int currentTab = 0;
   final List<Widget> screens = [
-    const HomePage2(),
+    const HomePage2S(),
     const RecherchePage(),
+    const ChatBot(),
     const FavoritePage(),
     const ProfilePage(),
   ];
 
-  final pageStorageBucket = PageStorageBucket();
-  Widget currentScreen = const HomePage2();
+  late final PageStorageBucket pageStorageBucket;
+  late Widget currentScreen;
+
+  @override
+  void initState() {
+    super.initState();
+    pageStorageBucket = PageStorageBucket();
+    currentScreen = screens[currentTab];
+  }
 
   @override
   Widget build(BuildContext context) {
-    var bucket;
-    return Scaffold(
-      body: PageStorage(bucket: bucket, child: currentScreen),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Image.asset('assets/icons/chatbot.png')),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 10,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = const HomePage2();
-                      });
-                    },
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.home_max_outlined,
-                        ),
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = const RecherchePage();
-                      });
-                    },
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.search_off_outlined,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = const FavoritePage();
-                      });
-                    },
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border_outlined,
-                        ),
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = const ProfilePage();
-                      });
-                    },
-                    child: const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.person_2_outlined,
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              )
-            ],
+    final items = <Widget>[
+      Icon(
+        Icons.home,
+        size: 30,
+      ),
+      Icon(
+        Icons.search,
+        size: 30,
+      ),
+      Image.asset(
+        'assets/icons/chatbot.png',
+        width: 30,
+        height: 30,
+      ),
+      Icon(
+        Icons.favorite,
+        size: 30,
+      ),
+      Icon(
+        Icons.person,
+        size: 30,
+      ),
+    ];
+
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        extendBody: true,
+        body: PageStorage(
+          child: currentScreen,
+          bucket: pageStorageBucket,
+        ),
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            iconTheme: IconThemeData(color: Colors.black),
+          ),
+          child: CurvedNavigationBar(
+            color: AppColors.tertiaryColor,
+            buttonBackgroundColor: AppColors.tertiaryColor,
+            backgroundColor: Colors.transparent,
+            height: 60,
+            animationDuration: Duration(milliseconds: 300),
+            items: items,
+            onTap: (index) {
+              setState(() {
+                currentTab = index;
+                currentScreen = screens[currentTab];
+              });
+            },
           ),
         ),
       ),
